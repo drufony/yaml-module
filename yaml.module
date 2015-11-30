@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Implements hook_element_info().
+ *
+ * YAML element type is basically a copy of the textarea element type.
+ */
+function yaml_element_info() {
+  $types['yaml'] = array(
+    '#input' => TRUE,
+    '#cols' => 60,
+    '#rows' => 5,
+    '#resizable' => TRUE,
+    '#process' => array('ajax_process_form'),
+    '#theme' => 'textarea',
+    '#theme_wrappers' => array('form_element'),
+    '#attributes' => array(
+      'style' => 'font-family:monospace',
+    ),
+  );
+  return $types;
+}
+
+/**
+ * Implements form_type_HOOK_value().
+ *
+ * @param $element
+ * @param bool $input
+ * @param array $form_state
+ * @return string
+ */
+function form_type_yaml_value($element, $input = FALSE) {
+  try {
+    if ($input === FALSE) {
+      return \Symfony\Component\Yaml\Yaml::dump($element['#default_value']);
+    }
+    else {
+      return isset($input) ? \Symfony\Component\Yaml\Yaml::parse($input) : null;
+    }
+  } catch (\Symfony\Component\Yaml\Exception\ParseException $e) {
+    $error_field = implode('][', $element['#parents']);
+    form_set_error($error_field, $e->getMessage());
+    return $input;
+  }
+}

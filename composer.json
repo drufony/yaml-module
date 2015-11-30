@@ -1,0 +1,22 @@
+{
+    "name": "drufony/yaml-module",
+    "description": "YAML module",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "require": {
+        "composer/installers": "~1.0",
+        "symfony/yaml": "~2.3"
+    },
+    "authors": [
+        {
+            "name": "Benjamin Doherty",
+            "email": "bjd@bangpound.org"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.0.x-dev"
+        },
+        "installer-name": "yaml"
+    }
+}
